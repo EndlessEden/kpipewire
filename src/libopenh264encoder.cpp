@@ -64,13 +64,25 @@ bool LibOpenH264Encoder::initialize(const QSize &size)
         // passes that through, but libopenh264 only allows BASELINE.
         // Until that bug is fixed there'll always be a warning that the
         // profile is not supported (https://github.com/cisco/openh264/issues/3613)
-        m_avCodecContext->profile = FF_PROFILE_H264_CONSTRAINED_BASELINE;
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(60, 31, 102)
+         m_avCodecContext->profile = FF_PROFILE_H264_CONSTRAINED_BASELINE;
+        #else
+         m_avCodecContext->profile = AV_PROFILE_H264_CONSTRAINED_BASELINE;
+        #endif
         break;
     case H264Profile::Main:
-        m_avCodecContext->profile = FF_PROFILE_H264_MAIN;
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(60, 31, 102)
+         m_avCodecContext->profile = FF_PROFILE_H264_MAIN;
+        #else
+         m_avCodecContext->profile = AV_PROFILE_H264_MAIN;
+        #endif
         break;
     case H264Profile::High:
-        m_avCodecContext->profile = FF_PROFILE_H264_HIGH;
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(60, 31, 102)
+         m_avCodecContext->profile = FF_PROFILE_H264_HIGH;
+        #else
+         m_avCodecContext->profile = AV_PROFILE_H264_HIGH;
+        #endif  
         break;
     }
 

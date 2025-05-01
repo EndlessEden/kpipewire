@@ -68,13 +68,25 @@ bool LibX264Encoder::initialize(const QSize &size)
 
     switch (m_profile) {
     case H264Profile::Baseline:
-        m_avCodecContext->profile = FF_PROFILE_H264_BASELINE;
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(60, 31, 102)
+         m_avCodecContext->profile = FF_PROFILE_H264_BASELINE;
+        #else
+         m_avCodecContext->profile = AV_PROFILE_H264_BASELINE;
+        #endif
         break;
-    case H264Profile::Main:
-        m_avCodecContext->profile = FF_PROFILE_H264_MAIN;
+     case H264Profile::Main:
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(60, 31, 102)
+         m_avCodecContext->profile = FF_PROFILE_H264_MAIN;
+        #else
+         m_avCodecContext->profile = AV_PROFILE_H264_MAIN;
+        #endif
         break;
-    case H264Profile::High:
-        m_avCodecContext->profile = FF_PROFILE_H264_HIGH;
+     case H264Profile::High:
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(60, 31, 102)
+         m_avCodecContext->profile = FF_PROFILE_H264_HIGH;
+        #else
+         m_avCodecContext->profile = AV_PROFILE_H264_HIGH;
+        #endif
         break;
     }
 
